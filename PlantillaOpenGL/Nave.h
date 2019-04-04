@@ -16,8 +16,8 @@ public:
 	vec3 coordenadas;
 	
 	float angulo;
-	float velocidadAngular = 2.0f;
-	float velocidad = 0.1f;
+	float velocidadAngular = 0.1f;
+	float velocidad = 0.0001f;
 
 	void rotar(Direccion direccion);
 
