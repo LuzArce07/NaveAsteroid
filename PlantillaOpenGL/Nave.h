@@ -25,35 +25,34 @@ public:
 
 	vec3 coordenadas;
 
-	float xTriangulo;
-	float yTriangulo;
-
 	float angulo; //Angulo triangulo
 
-	float anguloTrayectoria;
+	float anguloTrayectoria = 0.0f;
 	
-	float velocidadAngular = 0.1f;
-	float velocidad = 0.0001f;
+	float velocidadAngular = 0.5f;
+	float velocidad = 0.0f;
 	
+	float velocidadMaxima = 0.008f;
 
-	float velocidadActual;
-	float aceleracion;
-	float desaceleracion;
+	float velocidadActual = 0.7f;
 
-	float tiempoAnterior;
-	float tiempoActual;
-	float tiempoDiferencial;
+	float aceleracion = 0.0004f;
+	float desaceleracion = 0.0008f;
 
-	int estadoDerecha;
-	int estadoIzquierda;
-	int estadoArriba;
-	int estadoAbajo;
+	float tiempoAnterior = 0.0f;
+	float tiempoActual = 0.0f;
+	float tiempoDiferencial = 0.0f;
+
+	
 
 	void rotar(Direccion direccion);
 
-	void avanzar(Direccion direccion);
+	void avanzar();
 
 	void actualizarMatrizTransformacion();
 
+	void teletransportar();
+
+	void detener();
 
 };

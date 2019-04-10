@@ -5,24 +5,8 @@
 
 Nave::Nave() {
 
-	xTriangulo = 0.0f;
-	yTriangulo = 0.0f;
-
 	angulo = 0.0f;
 	
-	anguloTrayectoria = 0.0f;
-	velocidadAngular;
-
-	velocidad;
-
-	velocidadActual = 0.7f;
-	aceleracion = 0.3f;
-	desaceleracion = 0.2f;
-
-	tiempoAnterior = 0.0f;
-	tiempoActual = 0.0f;
-	tiempoDiferencial = 0.0f;
-
 	coordenadas = vec3(0.0f, 0.0f, 0.0f);
 
 	//Establece el valor como una matriz identidad
@@ -61,44 +45,24 @@ void Nave::rotar(Direccion direccion) {
 
 }
 
-void Nave::avanzar(Direccion direccion) {
-
+void Nave::avanzar() {
 	
-	/*if (estadoAbajo == GLFW_PRESS) {
+	if (velocidad < velocidadMaxima) {
+		velocidad += aceleracion * tiempoDiferencial;
+	}
 
-	//nave->avanzar();
-	yTriangulo -= velocidad * tiempoDiferencial;
-	}*/
-	
 	float anguloDesfasado = angulo + 90.0f;
 
-	xTriangulo = cos(anguloDesfasado * 3.14159f / 180.0f) * velocidad * tiempoDiferencial;
-	yTriangulo = sin(anguloDesfasado * 3.14159f / 180.0f) * velocidad * tiempoDiferencial;
-
-	if (xTriangulo < -1.1f) {
-		xTriangulo += 2.0f;
-	}
-	else if (xTriangulo > 1.1f) {
-		xTriangulo -= 2.0f;
-	}
-
-	if (yTriangulo < -1.1f) {
-		yTriangulo += 2.0f;
-	}
-	else if (yTriangulo > 1.1f) {
-		yTriangulo -= 2.0f;
-	}	
-
 	vec3 traslacion = vec3(
-		xTriangulo, //x
-		yTriangulo, //y
+		cos(anguloDesfasado * 3.14159 / 180.0f) * velocidad, //x
+		sin(anguloDesfasado * 3.14159 / 180.0f) * velocidad, //y
 		0.0f //z
 	);
 
 	coordenadas += traslacion;
 
 	actualizarMatrizTransformacion();
-	
+		
 }
 
 
@@ -110,5 +74,44 @@ void Nave::actualizarMatrizTransformacion() {
 	transformaciones = translate(transformaciones, coordenadas);
 	transformaciones = rotate(transformaciones, (angulo * 3.14159f / 180.0f), vec3(0.0f, 0.0f, 1.0f));
 	
+
+}
+
+void Nave::teletransportar() {
+
+	if (coordenadas.x < -1.1f) {
+		coordenadas.x += 2.0f;
+	}
+	else if (coordenadas.x > 1.1f) {
+		coordenadas.x -= 2.0f;
+	}
+
+	if (coordenadas.y < -1.1f) {
+		coordenadas.y += 2.0f;
+	}
+	else if (coordenadas.y > 1.1f) {
+		coordenadas.y -= 2.0f;
+
+	}
+}
+
+void Nave::detener() {
+
+	velocidad -= aceleracion * tiempoDiferencial;
+	if (velocidad < 0) {
+		velocidad = 0.0f;
+	}
+
+	float anguloDesfasado = angulo + 90.0f;
+
+	vec3 traslacion = vec3(
+		cos(anguloDesfasado * 3.14159 / 180.0f) * velocidad, //x
+		sin(anguloDesfasado * 3.14159 / 180.0f) * velocidad, //y
+		0.0f //z
+	);
+
+	coordenadas += traslacion;
+
+	actualizarMatrizTransformacion();
 
 }
